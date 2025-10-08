@@ -12,23 +12,29 @@ spring:
   jpa:
     properties:
       hibernate.dialect: ${DIALECT}
-      show-sql: true
+      show-sql: none
     hibernate:
       ddl-auto: update
+
+#  liquibase:
+#    enabled: true
+#    change-log: classpath:db/changelog/db.changelog-master.xml
+#    contexts: dev
 server:
   port: ${PORT}
   servlet:
     context-path: /api/v1
 
 
-#springdoc:
-#  api-docs:
-#    enabled: true
-#  swagger-ui:
-#    enabled: true
-#openapi:
-#  service:
-#    api-docs: shopapp-takopi-backend-service
-#    server: http://localhost:${server.port}/api/v1
-#    title: Shopapp Takopi Backend service
-#    version: 1.0.0
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+openapi:
+  service:
+      api-docs: jp_immersion_document
+      server: http://localhost:${server.port}/api/v1
+      title: Japanese Immersion Hub
+      version: 1.0.0
