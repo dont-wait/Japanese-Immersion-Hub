@@ -16,10 +16,6 @@ spring:
     hibernate:
       ddl-auto: update
 
-#  liquibase:
-#    enabled: true
-#    change-log: classpath:db/changelog/db.changelog-master.xml
-#    contexts: dev
 server:
   port: ${PORT}
   servlet:
@@ -34,7 +30,7 @@ springdoc:
     enabled: true
 openapi:
   service:
-      api-docs: jp_immersion_document
+      api-docs: JP IMMERSION HUB
       server: http://localhost:${server.port}/api/v1
       title: Japanese Immersion Hub
       version: 1.0.0

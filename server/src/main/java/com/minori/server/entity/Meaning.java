@@ -21,14 +21,10 @@ public class Meaning {
     @JoinColumn(name = "vocab_id", referencedColumnName = "vocab_id")
     Vocab vocab;
 
-    @ManyToOne
-    @JoinColumn(name = "vocab_sentence_id", referencedColumnName = "vocab_sentence_id")
-    VocabSentence vocabSentence;
-
     @Column(name = "lang_code", length = 5, nullable = false)
     String langCode;
 
-    @Column(name = "meaning_text", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "meaning_text", columnDefinition = "VARCHAR(30)", nullable = false)
     String meaningText;
 
 }

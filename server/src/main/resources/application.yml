@@ -18,16 +18,3 @@ server:
   port: ${PORT}
   servlet:
     context-path: /api/v1
-
-
-#springdoc:
-#  api-docs:
-#    enabled: true
-#  swagger-ui:
-#    enabled: true
-#openapi:
-#  service:
-#    api-docs: shopapp-takopi-backend-service
-#    server: http://localhost:${server.port}/api/v1
-#    title: Shopapp Takopi Backend service
-#    version: 1.0.0

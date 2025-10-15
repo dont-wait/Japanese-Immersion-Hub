@@ -1,4 +1,4 @@
-package com.minori.server.dto.request.vocab_sentences;
+package com.minori.server.dto.request.vocabs.sentences;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VocabSentenceCreateRequest {
-
 
     Integer vocabId;
 

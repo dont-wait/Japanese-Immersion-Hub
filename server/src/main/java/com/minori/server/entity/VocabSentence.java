@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 //Bang cau vi du: 1 Vocab N Sentence
 @Entity
 @Table(name = "vocab_sentence")
@@ -22,6 +24,11 @@ public class VocabSentence {
     @ManyToOne
     @JoinColumn(name = "vocab_id", referencedColumnName = "vocab_id")
     Vocab vocab;
+
+    @OneToMany(mappedBy = "vocabSentence",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    List<TranslateSentence> translateSentences;
 
     @Column(name = "vocab_sentence_kana", nullable = false, columnDefinition = "TEXT")
     String vocabSentenceKana;

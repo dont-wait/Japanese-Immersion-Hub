@@ -38,4 +38,9 @@ public class Vocab extends BaseEntity {
             cascade = CascadeType.ALL)
     List<VocabSentence> vocabSentences;
 
+    @OneToMany(mappedBy = "vocab",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    List<Meaning> meanings;
 }
