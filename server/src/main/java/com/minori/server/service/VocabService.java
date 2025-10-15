@@ -1,7 +1,7 @@
 package com.minori.server.service;
 
 import com.minori.server.dto.request.vocabs.VocabCreateRequest;
-import com.minori.server.dto.response.VocabResponse;
+import com.minori.server.dto.response.vocabs.VocabResponse;
 
 import java.util.List;
 

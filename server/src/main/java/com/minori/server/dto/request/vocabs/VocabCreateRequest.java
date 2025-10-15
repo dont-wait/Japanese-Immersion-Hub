@@ -27,5 +27,5 @@ public class VocabCreateRequest {
     String vocabPosName;
 
     List<VocabSentenceCreateRequest> vocabSentences;
-    List<MeaningCreateRequest> meaning;
+    List<MeaningCreateRequest> meanings;
 }

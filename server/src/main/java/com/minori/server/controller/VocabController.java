@@ -2,7 +2,7 @@ package com.minori.server.controller;
 
 import com.minori.server.dto.ApiResponse;
 import com.minori.server.dto.request.vocabs.VocabCreateRequest;
-import com.minori.server.dto.response.VocabResponse;
+import com.minori.server.dto.response.vocabs.VocabResponse;
 import com.minori.server.service.VocabService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;

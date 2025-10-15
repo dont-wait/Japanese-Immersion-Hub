@@ -1,4 +1,4 @@
-package com.minori.server.dto.request.vocabs.meanings;
+package com.minori.server.dto.request.vocabs.translates;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,10 +6,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class MeaningCreateRequest {
-    Integer vocabId;
+public class TranslateSentenceCreateRequest {
+    Integer sentenceId;
     String langCode;
     String meaningText;
 }

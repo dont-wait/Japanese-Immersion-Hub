@@ -1,7 +1,7 @@
 package com.minori.server.service.impl;
 
 import com.minori.server.dto.request.vocabs.VocabCreateRequest;
-import com.minori.server.dto.response.VocabResponse;
+import com.minori.server.dto.response.vocabs.VocabResponse;
 import com.minori.server.entity.Vocab;
 import com.minori.server.mapper.VocabMapper;
 import com.minori.server.repository.VocabPosRepository;
@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 
 @Service
