@@ -31,4 +31,9 @@ public class Role {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     List<RolePermission> rolePermissions;
+
+    @OneToMany(mappedBy = "role",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    List<User> users;
 }
