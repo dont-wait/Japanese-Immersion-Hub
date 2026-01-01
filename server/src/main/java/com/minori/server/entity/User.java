@@ -37,13 +37,10 @@ public class User {
     @JoinColumn(name = "role_id", referencedColumnName = "role_id")
     Role role;
 
-    @ManyToOne
-    @JoinColumn(name = "auth_provider_id", referencedColumnName = "auth_provider_id")
-    AuthProvider authProvider;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    List<AuthProvider> authProviders;
 
-    @OneToMany(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<AuditLog> auditLogs;
 
 }

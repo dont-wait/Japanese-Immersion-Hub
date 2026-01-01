@@ -22,11 +22,10 @@ public class AuthProvider {
     @Column(name = "provider_name", length = 100, nullable = false, unique = true)
     String providerName;
 
-    @Column(name = "provider_type", length = 50, nullable = false, unique = true)
+    @Column(name = "provider_type", length = 50, nullable = false)
     String providerType;
 
-    @OneToMany(mappedBy = "authProvider",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    List<User> users;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    User user;
 }
