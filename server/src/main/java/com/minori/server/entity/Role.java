@@ -16,24 +16,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    Integer roleId;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "role_id")
+        Integer roleId;
 
-    @Column(name = "role_name", length = 50, nullable = false, unique = true)
-    String roleName;
+        @Column(name = "role_name", length = 50, nullable = false, unique = true)
+        String roleName;
 
-    @Column(name = "role_description", columnDefinition = "TEXT")
-    String roleDescription;
+        @Column(name = "role_description", columnDefinition = "TEXT")
+        String roleDescription;
 
-    @OneToMany(mappedBy = "role",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    List<RolePermission> rolePermissions;
+        @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        List<RolePermission> rolePermissions;
 
-    @OneToMany(mappedBy = "role",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    List<User> users;
+        @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        List<User> users;
 }
