@@ -2,26 +2,15 @@ spring:
   config:
     activate:
       on-profile: dev
-  application:
-    name: japanese-immersion-hub
-  datasource:
-    url: ${DB_URL}
-    driver-class-name: ${DRIVER_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASS}
   jpa:
     properties:
       hibernate.dialect: ${DIALECT}
-      show-sql: none
+      show-sql: true
     hibernate:
       ddl-auto: update
 
 server:
   port: ${PORT}
-  servlet:
-    context-path: /api/v1
-
-
 
 springdoc:
   api-docs:
@@ -30,7 +19,7 @@ springdoc:
     enabled: true
 openapi:
   service:
-      api-docs: JP IMMERSION HUB
-      server: http://localhost:${server.port}/api/v1
-      title: Japanese Immersion Hub
-      version: 1.0.0
+    api-docs: JP IMMERSION HUB
+    server: http://localhost:${server.port}/api/v1
+    title: Japanese Immersion Hub
+    version: 1.0.0
