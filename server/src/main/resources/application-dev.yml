@@ -2,12 +2,12 @@ spring:
   config:
     activate:
       on-profile: dev
+
   jpa:
     properties:
-      hibernate.dialect: ${DIALECT}
       show-sql: true
-    hibernate:
-      ddl-auto: update
+  liquibase:
+    enabled: true
 
 server:
   port: ${PORT}
@@ -17,6 +17,7 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+
 openapi:
   service:
     api-docs: JP IMMERSION HUB

@@ -38,7 +38,7 @@ public class User {
     Role role;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    List<AuthProvider> authProviders;
+    List<UserAuthProvider> userAuthProviders;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<AuditLog> auditLogs;

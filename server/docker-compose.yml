@@ -1,0 +1,6 @@
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: japanese_immersion_hub
+      MYSQL_ROOT_PASSWORD: root
