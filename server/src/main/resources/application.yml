@@ -1,22 +1,16 @@
 spring:
-  application:
-    name: japanese-immersion-hub
-
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASS}
-    driver-class-name: ${DRIVER_NAME}
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: validate
     properties:
-      show-sql: false
+      show-sql: true
 
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yml
-
-server:
-  port: ${PORT}
