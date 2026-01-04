@@ -1,0 +1,9 @@
+# Liquibase Configuration Sample
+# Copy this file to liquibase.properties and update with your database credentials
+
+changeLogFile=src/main/resources/db/changelog/db.changelog-master.yml
+url=jdbc:postgresql://localhost:5432/your_database_name
+username=your_username
+password=your_password
+driver=org.postgresql.Driver
+classpath=target/classes:${HOME}/.m2/repository/org/postgresql/postgresql/42.7.7/postgresql-42.7.7.jar
