@@ -1,7 +1,7 @@
 package com.minori.server.service.impl;
 
 import com.minori.server.dto.request.vocabs.VocabCreateRequest;
-import com.minori.server.dto.response.vocabs.VocabResponse;
+import com.minori.server.dto.response.vocab.VocabResponse;
 import com.minori.server.entity.Vocab;
 import com.minori.server.mapper.VocabMapper;
 import com.minori.server.repository.VocabPosRepository;
