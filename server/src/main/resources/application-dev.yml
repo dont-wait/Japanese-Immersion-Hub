@@ -1,8 +1,4 @@
 spring:
-  config:
-    activate:
-      on-profile: dev
-
   jpa:
     properties:
       show-sql: true
