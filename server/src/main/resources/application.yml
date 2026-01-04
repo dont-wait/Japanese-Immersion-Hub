@@ -17,3 +17,8 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yml
+
+server:
+  port: ${PORT}
+  servlet:
+    context-path: /api/v1
