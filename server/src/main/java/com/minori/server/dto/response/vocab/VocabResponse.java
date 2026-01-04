@@ -1,4 +1,4 @@
-package com.minori.server.dto.response.vocabs;
+package com.minori.server.dto.response.vocab;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
