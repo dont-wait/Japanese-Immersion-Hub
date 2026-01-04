@@ -25,6 +25,24 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+  liquibase:
+    image: liquibase/liquibase:5.0.1
+    container_name: jp_liquibase
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src/main/resources/db/changelog:/liquibase/changelog
+    working_dir: /liquibase
+    command: >
+      liquibase
+      --url=jdbc:postgresql://postgres:5432/${POSTGRES_DB:-japanese_immersion_hub}
+      --username=${POSTGRES_USER:-jhub}
+      --password=${POSTGRES_PASSWORD:-jhub123}
+      --changeLogFile=changelog/db.changelog-master.yml
+      update
+    networks:
+      - jhub_network
 
   # pgadmin:
   #   image: dpage/pgadmin4:latest
