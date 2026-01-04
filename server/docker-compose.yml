@@ -47,8 +47,8 @@ services:
 volumes:
   pg_data:
     driver: local
-  pgadmin_data:
-    driver: local
+  # pgadmin_data:
+  #   driver: local
 
 networks:
   jhub_network:
