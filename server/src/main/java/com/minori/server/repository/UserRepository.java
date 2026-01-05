@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.minori.server.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findByUserName(String userName);
+    Optional<User> findByUsername(String username);
     Optional<User> findByEmail(String email);
     Optional<User> findByPhone(String phone);
-    Boolean existsByUserName(String userName);
+    Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
     Boolean existsByPhone(String phone);
     

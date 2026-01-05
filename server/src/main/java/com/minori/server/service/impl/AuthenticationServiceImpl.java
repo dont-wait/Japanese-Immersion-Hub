@@ -24,7 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Boolean authenticate(AuthenticationRequest request) {
-        User existingUser = userRepository.findByUserName(request.getUserName()).orElseThrow(
+        User existingUser = userRepository.findByUsername(request.getUsername()).orElseThrow(
             () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
         return passwordEncoder.matches(request.getPassword(), existingUser.getPassword());

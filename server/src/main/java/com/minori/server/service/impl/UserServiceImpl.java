@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService {
         );
         
         //Chi cap nhat neu thay doi va kiem tra trung
-        if (request.getUserName() != null &&
-                !request.getUserName().equals(existingUser.getUserName()) &&
-                userRepository.existsByUserName(request.getUserName()))
+        if (request.getUsername() != null &&
+                !request.getUsername().equals(existingUser.getUsername()) &&
+                userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
 
         if (request.getEmail() != null &&
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse createUserAccount(UserCreationRequest request) {
         
-        if (userRepository.existsByUserName(request.getUserName()))
+        if (userRepository.existsByUsername(request.getUsername()))
             throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
 
         if(userRepository.existsByEmail(request.getEmail()))

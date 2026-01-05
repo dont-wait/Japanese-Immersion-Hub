@@ -18,7 +18,7 @@ public class UserCreationRequest {
 
     @NotBlank(message = "USERNAME_NOT_BLANK")
     @Size(min = 3, max = 30, message="USERNAME_LENGTH_INVALID")
-    String userName;
+    String username;
     
     @NotBlank(message = "EMAIL_NOT_BLANK")
     @Email(message = "EMAIL_INVALID")
