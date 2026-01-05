@@ -2,7 +2,6 @@ package com.minori.server.exception;
 
 import com.minori.server.enums.ErrorCode;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;

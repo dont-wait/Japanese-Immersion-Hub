@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-contraint-defaultRoleId2User
+      author: dontwait
+      changes:
+        - addDefaultValue:
+            tableName: users
+            columnName: role_id
+            defaultValue: 2

@@ -3,8 +3,6 @@ package com.minori.server.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "translate_sentence")
 @AllArgsConstructor
