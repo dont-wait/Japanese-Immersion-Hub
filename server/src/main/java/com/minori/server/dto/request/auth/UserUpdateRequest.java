@@ -1,7 +1,5 @@
 package com.minori.server.dto.request.auth;
 
-import com.minori.server.entity.Role;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -15,7 +13,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class UserCreationRequest {
+public class UserUpdateRequest {
 
     @NotBlank(message = "USERNAME_NOT_BLANK")
     @Size(min = 3, max = 30, message="USERNAME_LENGTH_INVALID")
@@ -36,6 +34,4 @@ public class UserCreationRequest {
     message = "PASSWORD_COMPLEXITY_INVALID"
     )
     String password;
-
-    Integer roleId;
 }
