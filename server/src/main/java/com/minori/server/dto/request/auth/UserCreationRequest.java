@@ -1,6 +1,5 @@
 package com.minori.server.dto.request.auth;
 
-import com.minori.server.entity.Role;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
