@@ -23,7 +23,7 @@ public enum ErrorCode {
     EMAIL_INVALID(2002, "Email is invalid", HttpStatus.BAD_REQUEST),
     PHONE_INVALID(2002, "Phone is invalid", HttpStatus.BAD_REQUEST),
     PASSWORD_LENGTH_INVALID(2002, "Password length is invalid", HttpStatus.BAD_REQUEST),
-    PASSWORD_COMPLEXITY_INVALID(2002, "Password complexity is invalid", HttpStatus.BAD_REQUEST),
+    PASSWORD_COMPLEXITY_INVALID(2002, "At least 8 characters, including uppercase letters, lowercase letters, numbers, and special characters.", HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(2003, "User not found", HttpStatus.NOT_FOUND),
     USERNAME_ALREADY_EXISTS(2004, "Username already exists", HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_EXISTS(2004, "Email already exists", HttpStatus.BAD_REQUEST),

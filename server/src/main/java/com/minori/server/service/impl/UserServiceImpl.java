@@ -1,8 +1,11 @@
 package com.minori.server.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.minori.server.dto.request.auth.UserCreationRequest;
+import com.minori.server.dto.request.auth.UserUpdateRequest;
 import com.minori.server.dto.response.auth.UserResponse;
 import com.minori.server.entity.Role;
 import com.minori.server.entity.User;
@@ -22,9 +25,55 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
 
+    
     UserRepository userRepository;
     UserMapper userMapper;
     RoleRepository roleRepository;
+    
+    @Override
+    public void deleteUser(String userId) {
+        User existingUser = userRepository.findById(userId).orElseThrow(
+            () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        userRepository.deleteById(existingUser.getUserId());        
+    }
+
+    @Override
+    public List<UserResponse> getUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toUserResponse)
+        .toList();
+    }
+
+    @Override
+    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+        
+        User existingUser = userRepository.findById(userId).orElseThrow(
+            () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        
+        //Chi cap nhat neu thay doi va kiem tra trung
+        if (request.getUserName() != null &&
+                !request.getUserName().equals(existingUser.getUserName()) &&
+                userRepository.existsByUserName(request.getUserName()))
+            throw new AppException(ErrorCode.USERNAME_ALREADY_EXISTS);
+
+        if (request.getEmail() != null &&
+                !request.getEmail().equals(existingUser.getEmail()) &&
+                userRepository.existsByEmail(request.getEmail()))
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+
+        if (request.getPhone() != null &&
+                !request.getPhone().equals(existingUser.getPhone()) &&
+                userRepository.existsByPhone(request.getPhone()))
+            throw new AppException(ErrorCode.PHONE_ALREADY_EXISTS);
+
+        userMapper.updateUser(request, existingUser);
+        userRepository.save(existingUser);
+
+        return userMapper.toUserResponse(existingUser);
+    }
 
     @Override
     public UserResponse createUserAccount(UserCreationRequest request) {
@@ -43,11 +92,11 @@ public class UserServiceImpl implements UserService {
         );
 
         //TODO: Hash password, Validate email
-        User user = userMapper.toUser(request);
+        User user = userMapper.toUser(request, existingRole);
         user.setRole(existingRole);
 
         userRepository.save(user);
-        return userMapper.toUserResponse(user, existingRole);
+        return userMapper.toUserResponse(user);
     }
 
     @Override
@@ -56,7 +105,7 @@ public class UserServiceImpl implements UserService {
             () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
         return userMapper
-            .toUserResponse(existingUser, existingUser.getRole());
+            .toUserResponse(existingUser);
     }
     
 }
