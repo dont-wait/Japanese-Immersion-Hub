@@ -2,6 +2,7 @@ package com.minori.server.service.impl;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.minori.server.dto.request.auth.UserCreationRequest;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     UserMapper userMapper;
     RoleRepository roleRepository;
+    PasswordEncoder passwordEncoder;
     
     @Override
     public void deleteUser(String userId) {
@@ -87,12 +89,16 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByPhone(request.getPhone()))
             throw new AppException(ErrorCode.PHONE_ALREADY_EXISTS);
         
+        if(request.getPassword() != null && !request.getPassword().equals(request.getRepassword()))
+            throw new AppException(ErrorCode.REPASSWORD_INVALID);
+
         Role existingRole = roleRepository.findByRoleId(request.getRoleId()).orElseThrow(
             () -> new AppException(ErrorCode.ROLE_ID_NOT_EXIST)
         );
 
         //TODO: Hash password, Validate email
         User user = userMapper.toUser(request, existingRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(existingRole);
 
         userRepository.save(user);

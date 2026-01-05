@@ -37,5 +37,8 @@ public class UserCreationRequest {
     )
     String password;
 
+    @NotBlank(message = "REPASSWORD_NOT_BLANK")
+    String repassword;
+
     Integer roleId;
 }
