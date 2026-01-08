@@ -22,3 +22,5 @@ server:
   port: ${PORT}
   servlet:
     context-path: /api/v1
+jwt:
+  signerKey: ${JWT_SECRET}
