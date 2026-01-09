@@ -144,6 +144,12 @@
 			<version>9.31</version>
 		</dependency>
 
+		<!-- JWT on Oauth2 resource  -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
