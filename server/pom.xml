@@ -138,12 +138,6 @@
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.nimbusds</groupId>
-			<artifactId>nimbus-jose-jwt</artifactId>
-			<version>9.31</version>
-		</dependency>
-
 		<!-- JWT on Oauth2 resource  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
