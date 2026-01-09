@@ -8,6 +8,9 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,19 +24,22 @@ public class VocabController {
     VocabService vocabService;
 
     @PostMapping
-    public ApiResponse<VocabResponse> createVocab(@RequestBody @Valid VocabCreateRequest request) {
+    public ResponseEntity<ApiResponse<VocabResponse>> createVocab(@RequestBody @Valid VocabCreateRequest request) {
 
-        return ApiResponse.<VocabResponse>builder()
-                .message("Create Vocab successfully")
-                .result(vocabService.createVocab(request))
-                .build();
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.<VocabResponse>builder()
+                        .message("Vocab created successfully")
+                        .result(vocabService.createVocab(request))
+                        .build());
     }
 
     @GetMapping
-    public ApiResponse<List<VocabResponse>> getVocabs() {
-        return ApiResponse.<List<VocabResponse>>builder()
+    public ResponseEntity<ApiResponse<List<VocabResponse>>> getVocabs() {
+        return ResponseEntity.ok(
+            ApiResponse.<List<VocabResponse>>builder()
                 .message("Get Vocabs")
                 .result(vocabService.getVocabs())
-                .build();
+                .build());
     }
 }

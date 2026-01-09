@@ -2,6 +2,9 @@ package com.minori.server.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,42 +32,48 @@ public class UserController {
     UserService userService;
     
     @PostMapping("/register")
-    public ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody UserCreationRequest request) {
+        return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(ApiResponse.<UserResponse>builder()
                 .message("User created successfully")
                 .result(userService.createUserAccount(request))
-                .build();
+                .build());
     }
 
     @GetMapping("{userId}")
-    public ApiResponse<UserResponse> getUserById(String userId) {
-        return ApiResponse.<UserResponse>builder()
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(String userId) {
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
                 .message("User fetched successfully")
                 .result(userService.getUserById(userId))
-                .build();
+                .build());
     }
 
     @GetMapping
-    public ApiResponse<List<UserResponse>> getUsers() {
-        return ApiResponse.<List<UserResponse>>builder()
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers() {
+        return ResponseEntity.ok(
+            ApiResponse.<List<UserResponse>>builder()
                 .message("Users fetched successfully")
                 .result(userService.getUsers())
-                .build();
+                .build());
     }
 
     @PutMapping("{userId}")
-    public ApiResponse<UserResponse> updateUser(String userId, @Valid @RequestBody UserUpdateRequest request) {
-        return ApiResponse.<UserResponse>builder()
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(String userId, @Valid @RequestBody UserUpdateRequest request) {
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
                 .message("User updated successfully")
                 .result(userService.updateUser(userId, request))
-                .build();
+                .build());
     }
 
     @DeleteMapping("{userId}")
-    public ApiResponse<Void> deleteUser(String userId) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(String userId) {
         userService.deleteUser(userId);
-        return ApiResponse.<Void>builder()
+        return ResponseEntity.ok(
+            ApiResponse.<Void>builder()
                 .message("User deleted successfully")
-                .build();
+                .build());
     }
 }
