@@ -54,37 +54,40 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
-        var token = generateToken(request.getUsername());
+        var token = generateToken(existingUser);
         return AuthenticationResponse.builder()
                 .authenticated(true)
                 .token(token)
                 .build();
     }
     
-    private String generateToken(String username) {
+    private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-        
+
         //Body trong payload -> Claims
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-            .subject(username)
-            .issuer("minori-server")
-            .issueTime(new Date())
-            .expirationTime(new Date(
-                Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
-            .claim("userId", "custom")
+                .subject(user.getUsername())
+                .issuer("minori-server")
+                .issueTime(new Date())
+                .expirationTime(new Date(
+                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
+                .claim("scope", buildScope(user))
                 .build();
 
         //Payload payload = new Payload(jwtClaimsSet.toJSONObject());    
 
         JWSObject jwsObject = new JWSObject(header, jwtClaimsSet.toPayload());
-        
+
         try {
             jwsObject.sign(new MACSigner(SIGNER_KEY.getBytes()));
             return jwsObject.serialize();
         } catch (JOSEException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    private String buildScope(User user) {
+        return user.getRole().getRoleName();
     }
 
     @Override

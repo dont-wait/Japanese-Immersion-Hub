@@ -11,6 +11,8 @@ public interface UserService {
 
     UserResponse createUserAccount(UserCreationRequest request);
 
+    UserResponse getMyInfo();
+
     List<UserResponse> getUsers();
 
     UserResponse updateUser(String userId, UserUpdateRequest request);

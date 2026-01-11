@@ -3,8 +3,10 @@ package com.minori.server.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +25,15 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserController {
     UserService userService;
     
@@ -51,13 +57,31 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: " + authentication.getName());
+
+        authentication.getAuthorities().forEach(role -> {
+            log.info("Role: " + role.getAuthority());
+        });
+
         return ResponseEntity.ok(
-            ApiResponse.<List<UserResponse>>builder()
-                .message("Users fetched successfully")
-                .result(userService.getUsers())
+                ApiResponse.<List<UserResponse>>builder()
+                        .message("Users fetched successfully")
+                        .result(userService.getUsers())
+                        .build());
+    }
+    
+    @GetMapping("@me")
+    public ResponseEntity<ApiResponse<UserResponse>> getMyInfo() {
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
+                .message("User info fetched successfully")
+                .result(userService.getMyInfo())
                 .build());
     }
+    
 
     @PutMapping("{userId}")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(String userId, @Valid @RequestBody UserUpdateRequest request) {

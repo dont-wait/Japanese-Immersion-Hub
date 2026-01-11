@@ -14,7 +14,8 @@ public enum ErrorCode {
     
     UNCATEGORIZED(6789, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
-        
+    UNAUTHORIZEED(1006, "Unauthorized", HttpStatus.FORBIDDEN),            
+    
     USERNAME_NOT_BLANK(2001, "Username must not be blank", HttpStatus.BAD_REQUEST),
     EMAIL_NOT_BLANK(2001, "Email must not be blank", HttpStatus.BAD_REQUEST),
     PHONE_NOT_BLANK(2001, "Phone must not be blank", HttpStatus.BAD_REQUEST),
