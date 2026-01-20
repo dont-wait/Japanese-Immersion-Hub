@@ -150,6 +150,12 @@
 			<artifactId>spring-context-indexer</artifactId>
 		</dependency>
 
+		<!-- Feign Client for outbound identity service -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>4.0.4</version>
+		</dependency>
 
 	</dependencies>
 

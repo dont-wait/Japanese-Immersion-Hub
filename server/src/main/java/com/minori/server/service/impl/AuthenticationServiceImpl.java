@@ -107,5 +107,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             .valid(verified && expirationTime.after(new Date()))
             .build();
     }
+
+    @Override
+    public AuthenticationResponse outboundAuthenticate(String code) {
+
+        return AuthenticationResponse.builder()
+                .authenticated(true)
+                .token(code)
+                .build();
+    }   
     
 }
