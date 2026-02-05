@@ -138,6 +138,24 @@
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 
+		<!-- JWT on Oauth2 resource  -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+
+		<!-- Index bean have load  to conduce time for startup -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-indexer</artifactId>
+		</dependency>
+
+		<!-- Feign Client for outbound identity service -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>4.0.4</version>
+		</dependency>
 
 	</dependencies>
 

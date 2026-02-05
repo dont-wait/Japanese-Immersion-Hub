@@ -2,6 +2,7 @@ package com.minori.server.service.impl;
 
 import java.util.List;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -112,6 +113,16 @@ public class UserServiceImpl implements UserService {
         );
         return userMapper
             .toUserResponse(existingUser);
+    }
+
+    @Override
+    public UserResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        User existingUser = userRepository.findByUsername(username).orElseThrow(
+            () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        return userMapper.toUserResponse(existingUser);
     }
     
 }

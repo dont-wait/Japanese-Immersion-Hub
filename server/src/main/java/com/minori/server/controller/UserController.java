@@ -2,6 +2,11 @@ package com.minori.server.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,51 +25,79 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class UserController {
     UserService userService;
     
     @PostMapping("/register")
-    public ApiResponse<UserResponse> createUser(@Valid @RequestBody UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody UserCreationRequest request) {
+        return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(ApiResponse.<UserResponse>builder()
                 .message("User created successfully")
                 .result(userService.createUserAccount(request))
-                .build();
+                .build());
     }
 
     @GetMapping("{userId}")
-    public ApiResponse<UserResponse> getUserById(String userId) {
-        return ApiResponse.<UserResponse>builder()
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(String userId) {
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
                 .message("User fetched successfully")
                 .result(userService.getUserById(userId))
-                .build();
+                .build());
     }
 
     @GetMapping
-    public ApiResponse<List<UserResponse>> getUsers() {
-        return ApiResponse.<List<UserResponse>>builder()
-                .message("Users fetched successfully")
-                .result(userService.getUsers())
-                .build();
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<UserResponse>>> getUsers() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: " + authentication.getName());
+
+        authentication.getAuthorities().forEach(role -> {
+            log.info("Role: " + role.getAuthority());
+        });
+
+        return ResponseEntity.ok(
+                ApiResponse.<List<UserResponse>>builder()
+                        .message("Users fetched successfully")
+                        .result(userService.getUsers())
+                        .build());
     }
+    
+    @GetMapping("@me")
+    public ResponseEntity<ApiResponse<UserResponse>> getMyInfo() {
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
+                .message("User info fetched successfully")
+                .result(userService.getMyInfo())
+                .build());
+    }
+    
 
     @PutMapping("{userId}")
-    public ApiResponse<UserResponse> updateUser(String userId, @Valid @RequestBody UserUpdateRequest request) {
-        return ApiResponse.<UserResponse>builder()
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(String userId, @Valid @RequestBody UserUpdateRequest request) {
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
                 .message("User updated successfully")
                 .result(userService.updateUser(userId, request))
-                .build();
+                .build());
     }
 
     @DeleteMapping("{userId}")
-    public ApiResponse<Void> deleteUser(String userId) {
+    public ResponseEntity<ApiResponse<Void>> deleteUser(String userId) {
         userService.deleteUser(userId);
-        return ApiResponse.<Void>builder()
+        return ResponseEntity.ok(
+            ApiResponse.<Void>builder()
                 .message("User deleted successfully")
-                .build();
+                .build());
     }
 }

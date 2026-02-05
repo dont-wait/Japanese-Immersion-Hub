@@ -4,6 +4,7 @@ import com.minori.server.dto.ApiResponse;
 import com.minori.server.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,7 +31,21 @@ public class GlobalExceptionHandler {
                 .code(e.getErrorCode().getCode())
                 .message(e.getErrorCode().getMessage())
                 .build();
-        return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(apiResponse);
+        return ResponseEntity
+                .status(e.getErrorCode().getHttpStatus())
+                .body(apiResponse);
+    }
+
+    //Kiem tra quyen cua nguoi dung co duoc phep truy cap vao resource hay khong
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException e) {
+        log.error("AccessDeniedException: ", e);
+        return ResponseEntity
+                .status(ErrorCode.UNAUTHORIZEED.getHttpStatus())
+                .body(ApiResponse.builder()
+                    .code(ErrorCode.UNAUTHORIZEED.getCode())
+                    .message(ErrorCode.UNAUTHORIZEED.getMessage())
+                .build());
     }
 
     //Ham nay minh bat loi validation

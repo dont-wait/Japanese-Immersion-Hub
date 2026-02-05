@@ -1,14 +1,22 @@
 package com.minori.server.controller;
 
+import java.text.ParseException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minori.server.dto.ApiResponse;
 import com.minori.server.dto.request.auth.AuthenticationRequest;
+import com.minori.server.dto.request.auth.IntrospectRequest;
 import com.minori.server.dto.response.auth.AuthenticationResponse;
+import com.minori.server.dto.response.auth.IntrospectResponse;
 import com.minori.server.service.AuthenticationService;
+import com.nimbusds.jose.JOSEException;
 
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -22,13 +30,33 @@ import lombok.experimental.FieldDefaults;
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
-    @PostMapping("/login")
-    public ApiResponse<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
-        Boolean isAuthenticated = authenticationService.authenticate(request);
+    @PostMapping("/outbound/authentication")
+    public ApiResponse<AuthenticationResponse> outboundAuthenticate(@RequestParam("code") String code) {
+        var result = authenticationService.outboundAuthenticate(code);
         return ApiResponse.<AuthenticationResponse>builder()
-                .result(AuthenticationResponse
-                        .builder()
-                    .authenticated(isAuthenticated).build())
+                .message("Outbound authentication successful")
+                .result(result)
                 .build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> login(@Valid @RequestBody AuthenticationRequest request) {
+        var authenticationResponse = authenticationService.authenticate(request);
+        return ResponseEntity
+        .status(HttpStatus.CREATED)
+        .body(ApiResponse.<AuthenticationResponse>builder()
+                .message("User logged in successfully")
+                .result(authenticationResponse)
+                .build());
+    }
+
+    @PostMapping("/introspect")
+    public ResponseEntity<ApiResponse<IntrospectResponse>> introspect(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
+        var authenticationResponse = authenticationService.introspect(request);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(ApiResponse.<IntrospectResponse>builder()
+                    .result(authenticationResponse)
+                    .build());
+    } 
 }

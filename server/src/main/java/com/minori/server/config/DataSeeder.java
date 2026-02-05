@@ -4,11 +4,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.minori.server.entity.AuthProvider;
 import com.minori.server.entity.Role;
+import com.minori.server.entity.User;
 import com.minori.server.repository.AuthProviderRepository;
 import com.minori.server.repository.RoleRepository;
+import com.minori.server.repository.UserRepository;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class DataSeeder {
     RoleRepository roleRepository;
     AuthProviderRepository authProviderRepository;
+    PasswordEncoder passwordEncoder;
+    UserRepository userRepository;
 
     @Bean
     @Profile({ "dev", "test" }) // Chỉ chạy ở dev/test environment
@@ -78,6 +83,22 @@ public class DataSeeder {
                 authProviderRepository.save(github);
 
                 log.info("Auth providers seeded successfully!");
+            }
+            if(userRepository.findByUsername("ADMIN").isEmpty()) {
+                log.info("Seeding default admin user...");
+
+                Role adminRole = roleRepository.findByRoleName("ADMIN").orElseThrow(() -> new RuntimeException("Admin role not found"));
+
+                User adminUser = User.builder()
+                        .username("ADMIN")
+                        .email("adminjp@gmail.com")
+                        .phone("+8411111111111")
+                        .password(passwordEncoder.encode("Admin@123"))
+                        .role(adminRole)
+                        .build();
+                userRepository.save(adminUser);
+
+                log.info("Default admin user seeded successfully!");
             }
         };
     }
