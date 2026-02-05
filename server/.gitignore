@@ -37,3 +37,4 @@ build/
 .env
 .env-dev
 liquibase.properties
+flake.lock
