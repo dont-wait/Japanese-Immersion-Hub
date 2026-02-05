@@ -16,15 +16,12 @@ services:
     networks:
       - jhub_network
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-jhub} -d ${POSTGRES_DB:-japanese_immersion_hub}",
-        ]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jhub} -d ${POSTGRES_DB:-japanese_immersion_hub}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
+
   liquibase:
     image: liquibase/liquibase:5.0.1
     container_name: jp_liquibase
@@ -32,66 +29,29 @@ services:
       postgres:
         condition: service_healthy
     volumes:
+      # Mount thư mục changelog vào container
       - ./src/main/resources/db/changelog:/liquibase/changelog
     working_dir: /liquibase
-    command: >
-      liquibase
-      --url=jdbc:postgresql://postgres:5432/${POSTGRES_DB:-japanese_immersion_hub}
-      --username=${POSTGRES_USER:-jhub}
-      --password=${POSTGRES_PASSWORD:-jhub123}
-      --changeLogFile=changelog/db.changelog-master.yml
-      update
     networks:
       - jhub_network
-
-  # pgadmin:
-  #   image: dpage/pgadmin4:latest
-  #   container_name: jp_pgadmin
-  #   restart: no
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@jhub.com}
-  #     PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
-  #     PGADMIN_CONFIG_SERVER_MODE: "False"
-  #   ports:
-  #     - "${PGADMIN_PORT:-5050}:80"
-  #   volumes:
-  #     - pgadmin_data:/var/lib/pgadmin
-  #   networks:
-  #     - jhub_network
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-
-  app:
-    image: maven:3.9.6-eclipse-temurin-17
-    container_name: jp_app
-    restart: no
-    volumes:
-      - ./:/app
-      - maven_cache:/root/.m2
-    working_dir: /app
-    command: mvn spring-boot:run
+    # Cấu hình qua biến môi trường để dùng cho mọi lệnh (Update, Diff, Status...)
     environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
-      POSTGRES_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-japanese_immersion_hub}
-      POSTGRES_USER: ${POSTGRES_USER:-jhub}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jhub123}
-      PORT: 8080
-    ports:
-      - "${APP_PORT:-8080}:8080"
-    networks:
-      - jhub_network
-    depends_on:
-      postgres:
-        condition: service_healthy
+      LIQUIBASE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-japanese_immersion_hub}
+      LIQUIBASE_USERNAME: ${POSTGRES_USER:-jhub}
+      LIQUIBASE_PASSWORD: ${POSTGRES_PASSWORD:-jhub123}
+      LIQUIBASE_CHANGELOG_FILE: changelog/db.changelog-master.yml
+      # Tắt cái popup quảng cáo Pro/Hub trong log
+      LIQUIBASE_HUB_MODE: off 
+
+  # --- APP SERVICE (Đã tắt để chạy trên Host/NixOS) ---
+  # app:
+  #   image: maven:3.9.6-eclipse-temurin-17
+  #   container_name: jp_app
+  #   ... (đã ẩn để tránh conflict port và java version) ...
 
 volumes:
   pg_data:
     driver: local
-  maven_cache:
-    driver: local
-  # pgadmin_data:
-  #   driver: local
 
 networks:
   jhub_network:
