@@ -11,6 +11,7 @@ A comprehensive platform for Japanese language learning and immersion, featuring
 - [API Documentation](#api-documentation)
 - [Database Management](#database-management)
 - [Project Structure](#project-structure)
+- [Client (Frontend)](#client-frontend)
 - [Contributing](#contributing)
 
 ## ✨ Features
@@ -380,6 +381,45 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Spring Boot team for the excellent framework
 - Japanese language learning community
 - Contributors and testers
+
+## 💻 Client (Frontend)
+
+Võ đường Ngôn ngữ Hiện đại (Modern Language Dojo). Giao diện được thiết kế theo phong cách cực ngầu lấy cảm hứng từ **Zen-Modern**, **Zine-inspired** và đặc biệt là phong cách đồ họa của game **Persona 5**.
+
+### ⛩️ Tính năng nổi bật
+- **Giao diện Persona 5:** Trang chủ (Landing Page) bùng nổ, đậm chất nghệ thuật.
+- **Dashboard Zen:** Hệ thống lưới Bento, theo dõi Streak và vòng tròn tiến độ Enso.
+- **Trải nghiệm đắm mình:** Không gian học tập tối giản, tập trung tối đa vào kiến thức.
+- **Guest Access:** Cho phép dùng thử ứng dụng ngay lập tức mà không cần đăng ký.
+
+### 🚀 Hướng dẫn chạy thử (Local Development)
+
+#### 1. Yêu cầu
+- **Node.js** v18+
+- **npm** hoặc **pnpm**
+
+#### 2. Cài đặt
+Di chuyển vào thư mục `client` (đã được đổi tên từ `fe`):
+```bash
+cd client
+```
+
+Cài đặt thư viện:
+```bash
+npm install
+```
+
+#### 3. Khởi chạy
+```bash
+npm run dev
+```
+Truy cập tại: `http://localhost:3000`
+
+### 🛠️ Tech Stack Frontend
+- **Framework:** React 19 + Vite
+- **Styling:** Tailwind CSS v4 (Modern Engine)
+- **Icons:** Material Symbols (Google)
+- **State:** React Context API (Auth, Theme)
 
 ---
 
