@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.minori.server.dto.ApiResponse;
 import com.minori.server.dto.request.auth.AuthenticationRequest;
 import com.minori.server.dto.request.auth.IntrospectRequest;
+import com.minori.server.dto.request.auth.LogoutRequest;
 import com.minori.server.dto.response.auth.AuthenticationResponse;
 import com.minori.server.dto.response.auth.IntrospectResponse;
 import com.minori.server.service.AuthenticationService;
@@ -59,4 +60,13 @@ public class AuthenticationController {
                     .result(authenticationResponse)
                     .build());
     } 
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws JOSEException, ParseException {
+        authenticationService.logout(request);
+        return ApiResponse.<Void>builder()
+                .message("User logged out successfully")
+                .build();
+    }
+
+
 }
