@@ -11,6 +11,7 @@ import AdminLayout from './components/layout/AdminLayout';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
+import OAuthCallback from './pages/auth/OAuthCallback';
 
 // Public
 import LandingPage from './pages/LandingPage';
@@ -75,6 +76,7 @@ export default function App() {
               <Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
               <Route path="/register" element={<GuestOnly><Register /></GuestOnly>} />
               <Route path="/forgot-password" element={<GuestOnly><ForgotPassword /></GuestOnly>} />
+              <Route path="/auth" element={<OAuthCallback />} />
 
               {/* ── Learner (auth required) ── */}
               <Route path="/learn" element={<RequireAuth><LearnerLayout /></RequireAuth>}>

@@ -12,9 +12,9 @@ const authService = {
         return axiosClient.post(API_ENDPOINTS.AUTH.REGISTER, userData);
     },
 
-    // Đăng nhập bằng Google OAuth2
-    googleLogin: (tokenId) => {
-        return axiosClient.post(API_ENDPOINTS.AUTH.GOOGLE, { tokenId });
+    // Đăng nhập bằng Google OAuth2 (gửi authorization code)
+    googleLogin: (code) => {
+        return axiosClient.post(`${API_ENDPOINTS.AUTH.GOOGLE}?code=${encodeURIComponent(code)}`);
     },
 
     // Đăng xuất

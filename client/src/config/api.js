@@ -1,14 +1,18 @@
 // ===== API Configuration =====
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api/v1';
 
+// ===== Google OAuth2 Configuration =====
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const GOOGLE_REDIRECT_URI = import.meta.env.VITE_GOOGLE_REDIRECT_URI || 'http://localhost:3000/auth';
+
 const API_ENDPOINTS = {
     // Auth
     AUTH: {
         LOGIN: '/auth/login',
-        REGISTER: '/auth/register',
+        REGISTER: '/users/register',
         REFRESH: '/auth/refresh',
         LOGOUT: '/auth/logout',
-        GOOGLE: '/auth/google',
+        GOOGLE: '/auth/outbound/authentication',
         FORGOT_PASSWORD: '/auth/forgot-password',
         RESET_PASSWORD: '/auth/reset-password',
     },
@@ -49,7 +53,7 @@ const API_ENDPOINTS = {
 
     // User
     USER: {
-        PROFILE: '/user/profile',
+        PROFILE: '/users/@me',
         SETTINGS: '/user/settings',
         STATS: '/user/stats',
     },
@@ -71,4 +75,4 @@ const API_ENDPOINTS = {
     },
 };
 
-export { API_BASE_URL, API_ENDPOINTS };
+export { API_BASE_URL, API_ENDPOINTS, GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI };

@@ -6,17 +6,22 @@ import AppleLogo from '../../assets/Apple_logo_black.svg';
 import './Register.css';
 
 export default function Register() {
-    const { register } = useAuth();
+    const { register, getGoogleAuthUrl } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        fullName: '',
+        username: '',
         email: '',
+        phone: '',
         password: '',
         confirmPassword: '',
     });
     const [agree, setAgree] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const handleGoogleLogin = () => {
+        window.location.href = getGoogleAuthUrl();
+    };
 
     const handleChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -38,12 +43,17 @@ export default function Register() {
         setLoading(true);
         try {
             await register({
-                username: formData.fullName.replace(/\s+/g, '_').toLowerCase(),
+                username: formData.username,
                 email: formData.email,
+                phone: formData.phone,
                 password: formData.password,
-                displayName: formData.fullName
+                repassword: formData.confirmPassword,
+                roleId: 2 // Default to LEARNER
             });
-            navigate('/learn');
+            // Since registration doesn't log in automatically in the backend,
+            // we should redirect to login or show a success message.
+            alert('Đăng ký thành công! Vui lòng đăng nhập.');
+            navigate('/login');
         } catch (err) {
             setError(err?.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
         } finally {
@@ -127,29 +137,42 @@ export default function Register() {
                                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="flex flex-col gap-2">
-                                                <label className="text-xs font-label font-bold uppercase tracking-widest text-[#635d5a] ml-1">HỌ VÀ TÊN</label>
+                                                <label className="text-xs font-label font-bold uppercase tracking-widest text-[#635d5a] ml-1">TÊN ĐĂNG NHẬP</label>
                                                 <input
-                                                    name="fullName"
-                                                    value={formData.fullName}
+                                                    name="username"
+                                                    value={formData.username}
                                                     onChange={handleChange}
                                                     className="w-full px-4 py-3 min-h-[48px] rounded-xl bg-[#f3f3f3] border-none focus:ring-2 focus:ring-[#8f0020] focus:bg-[#ffffff] transition-all placeholder:text-zinc-400 text-[#1a1c1c] font-body"
-                                                    placeholder="Kenji Tanaka"
+                                                    placeholder="kenji_tanaka"
                                                     type="text"
                                                     required
                                                 />
                                             </div>
                                             <div className="flex flex-col gap-2">
-                                                <label className="text-xs font-label font-bold uppercase tracking-widest text-[#635d5a] ml-1">EMAIL</label>
+                                                <label className="text-xs font-label font-bold uppercase tracking-widest text-[#635d5a] ml-1">SỐ ĐIỆN THOẠI</label>
                                                 <input
-                                                    name="email"
-                                                    value={formData.email}
+                                                    name="phone"
+                                                    value={formData.phone}
                                                     onChange={handleChange}
                                                     className="w-full px-4 py-3 min-h-[48px] rounded-xl bg-[#f3f3f3] border-none focus:ring-2 focus:ring-[#8f0020] focus:bg-[#ffffff] transition-all placeholder:text-zinc-400 text-[#1a1c1c] font-body"
-                                                    placeholder="kenji@immersion.jp"
-                                                    type="email"
+                                                    placeholder="0912345678"
+                                                    type="tel"
                                                     required
                                                 />
                                             </div>
+                                        </div>
+
+                                        <div className="flex flex-col gap-2">
+                                            <label className="text-xs font-label font-bold uppercase tracking-widest text-[#635d5a] ml-1">EMAIL</label>
+                                            <input
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                className="w-full px-4 py-3 min-h-[48px] rounded-xl bg-[#f3f3f3] border-none focus:ring-2 focus:ring-[#8f0020] focus:bg-[#ffffff] transition-all placeholder:text-zinc-400 text-[#1a1c1c] font-body"
+                                                placeholder="kenji@immersion.jp"
+                                                type="email"
+                                                required
+                                            />
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -206,7 +229,7 @@ export default function Register() {
                                     <div className="mt-8 pt-8 border-t border-[#eeeeee] flex flex-col md:flex-row items-center justify-between gap-4">
                                         <p className="text-sm text-[#635d5a] font-body">Hoặc đăng ký bằng</p>
                                         <div className="flex gap-4 w-full md:w-auto">
-                                            <button type="button" className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-[#e8e8e8] hover:bg-[#e2e2e2] transition-colors font-label font-medium text-sm text-[#1a1c1c]">
+                                            <button type="button" onClick={handleGoogleLogin} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg bg-[#e8e8e8] hover:bg-[#e2e2e2] transition-colors font-label font-medium text-sm text-[#1a1c1c] cursor-pointer">
                                                 <img alt="Google" className="w-[18px] object-contain" src={GoogleLogo} />
                                                 Google
                                             </button>

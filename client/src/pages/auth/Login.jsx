@@ -4,12 +4,16 @@ import { useAuth } from '../../contexts/AuthContext';
 import './Login.css';
 
 export default function Login() {
-    const { login } = useAuth();
+    const { login, getGoogleAuthUrl } = useAuth();
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
+
+    const handleGoogleLogin = () => {
+        window.location.href = getGoogleAuthUrl();
+    };
 
     const handleChange = (e) => {
         setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -20,12 +24,10 @@ export default function Login() {
         setError('');
         setLoading(true);
         try {
-            // In the backend it might expect { username, password }
-            // This is a stub for the correct API shape your authService uses
             await login(formData);
             navigate('/learn');
         } catch (err) {
-            setError(err?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
+            setError(err?.response?.data?.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại tài khoản và mật khẩu.');
         } finally {
             setLoading(false);
         }
@@ -62,18 +64,18 @@ export default function Login() {
                                     <div className="space-y-4">
                                         {/* Email Field */}
                                         <div className="group">
-                                            <label className="block text-xs font-label font-semibold text-[#5c403f] uppercase tracking-wider mb-1 px-1" htmlFor="email">
-                                                Địa chỉ Email
+                                            <label className="block text-xs font-label font-semibold text-[#5c403f] uppercase tracking-wider mb-1 px-1" htmlFor="username">
+                                                Tên đăng nhập
                                             </label>
                                             <div className="relative">
                                                 <input
                                                     className="w-full bg-[#f3f3f3] border-none focus:ring-2 focus:ring-[#8f0020]/20 rounded-lg px-4 py-3.5 text-[#1a1c1c] placeholder:text-[#906f6f]/50 transition-all duration-200"
-                                                    id="email"
-                                                    name="email"
-                                                    placeholder="sensei@immersion.com"
+                                                    id="username"
+                                                    name="username"
+                                                    placeholder="Tên đăng nhập của bạn"
                                                     required
-                                                    type="email"
-                                                    value={formData.email}
+                                                    type="text"
+                                                    value={formData.username}
                                                     onChange={handleChange}
                                                 />
                                             </div>
@@ -139,7 +141,7 @@ export default function Login() {
 
                                 {/* Social Logins */}
                                 <div className="grid grid-cols-2 gap-4">
-                                    <button className="flex items-center justify-center gap-3 bg-[#f3f3f3] hover:bg-[#e8e8e8] text-[#1a1c1c] font-semibold py-3 px-4 rounded-lg transition-all duration-200 group">
+                                    <button onClick={handleGoogleLogin} type="button" className="flex items-center justify-center gap-3 bg-[#f3f3f3] hover:bg-[#e8e8e8] text-[#1a1c1c] font-semibold py-3 px-4 rounded-lg transition-all duration-200 group cursor-pointer">
                                         <span className="w-5 h-5 flex items-center justify-center">
                                             <svg className="w-full h-full" viewBox="0 0 24 24">
                                                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>

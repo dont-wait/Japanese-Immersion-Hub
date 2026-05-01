@@ -22,77 +22,19 @@ axiosClient.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// ===== Response Interceptor: Tự động Refresh Token =====
-let isRefreshing = false;
-let failedQueue = [];
-
-const processQueue = (error, token = null) => {
-    failedQueue.forEach((prom) => {
-        if (error) {
-            prom.reject(error);
-        } else {
-            prom.resolve(token);
-        }
-    });
-    failedQueue = [];
-};
-
 axiosClient.interceptors.response.use(
     (response) => response,
     async (error) => {
-        const originalRequest = error.config;
-
-        // Nếu lỗi 401 và chưa retry
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            if (isRefreshing) {
-                // Nếu đang refresh, đưa request vào hàng đợi
-                return new Promise((resolve, reject) => {
-                    failedQueue.push({ resolve, reject });
-                })
-                    .then((token) => {
-                        originalRequest.headers.Authorization = `Bearer ${token}`;
-                        return axiosClient(originalRequest);
-                    })
-                    .catch((err) => Promise.reject(err));
-            }
-
-            originalRequest._retry = true;
-            isRefreshing = true;
-
-            try {
-                const refreshToken = localStorage.getItem('refreshToken');
-                if (!refreshToken) {
-                    throw new Error('No refresh token');
-                }
-
-                const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {
-                    refreshToken,
-                });
-
-                const newAccessToken = data.accessToken;
-                localStorage.setItem('accessToken', newAccessToken);
-
-                if (data.refreshToken) {
-                    localStorage.setItem('refreshToken', data.refreshToken);
-                }
-
-                axiosClient.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
-                processQueue(null, newAccessToken);
-
-                originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-                return axiosClient(originalRequest);
-            } catch (refreshError) {
-                processQueue(refreshError, null);
-                // Refresh thất bại → logout
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
+        // Nếu lỗi 401 (Unauthorized)
+        if (error.response?.status === 401) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('user');
+            
+            // Chỉ redirect nếu không phải đang ở trang login
+            if (!window.location.pathname.includes('/login')) {
                 window.location.href = '/login';
-                return Promise.reject(refreshError);
-            } finally {
-                isRefreshing = false;
             }
         }
-
         return Promise.reject(error);
     }
 );
