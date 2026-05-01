@@ -6,4 +6,4 @@ databaseChangeLog:
         - addDefaultValue:
             tableName: users
             columnName: role_id
-            defaultValue: 2
+            defaultValue: "2"
