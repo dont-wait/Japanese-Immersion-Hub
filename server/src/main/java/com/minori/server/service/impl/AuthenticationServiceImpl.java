@@ -52,19 +52,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @NonFinal
     @Value("${oauth2.clientId}")
-    protected final String CLIEND_ID;
+    protected String CLIEND_ID;
 
     @NonFinal
     @Value("${oauth2.clientSecret}")
-    protected final String CLIEND_SECRET;
+    protected String CLIEND_SECRET;
 
     @NonFinal
     @Value("${oauth2.redirectUri}")
-    protected final String REDIRECT_URI;
+    protected String REDIRECT_URI;
 
     @NonFinal
     @Value("${oauth2.grantType}")
-    protected final String GRANT_TYPE;
+    protected String GRANT_TYPE;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

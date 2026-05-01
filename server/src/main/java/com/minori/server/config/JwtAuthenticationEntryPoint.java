@@ -2,8 +2,6 @@ package com.minori.server.config;
 
 import java.io.IOException;
 
-import javax.print.attribute.standard.Media;
-
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
