@@ -1,0 +1,7 @@
+/* ===== Dashboard Page Styles ===== */
+.enso-progress {
+    stroke-dasharray: 283;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 1s ease-in-out;
+}

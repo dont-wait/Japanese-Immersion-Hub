@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
-
+import './ForgotPassword.css';
 export default function ForgotPassword() {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -26,34 +26,7 @@ export default function ForgotPassword() {
     };
 
     return (
-        <>
-            <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;1,400;1,800&family=Manrope:wght@400;500;600&family=Inter:wght@400;500&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
-
-        .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-body { font-family: 'Manrope', sans-serif; }
-        .font-label { font-family: 'Inter', sans-serif; }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .editorial-shadow {
-            box-shadow: 0 12px 32px rgba(26, 28, 28, 0.06);
-        }
-        .enso-stroke {
-            stroke-dasharray: 283;
-            stroke-dashoffset: 70;
-            transition: stroke-dashoffset 1s ease-in-out;
-        }
-        
-        /* If success, animate enso stroke to 0 */
-        .enso-success {
-            stroke-dashoffset: 0 !important;
-        }
-      `}</style>
-
-            <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body selection:bg-[#bc002d] selection:text-[#ffc9c8] min-h-screen flex flex-col items-center justify-center p-6">
+        <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body selection:bg-[#bc002d] selection:text-[#ffc9c8] min-h-screen flex flex-col items-center justify-center p-6">
 
                 {/* Main Content Container */}
                 {!isSuccess && (
@@ -196,6 +169,5 @@ export default function ForgotPassword() {
                 )}
 
             </div>
-        </>
     );
 }

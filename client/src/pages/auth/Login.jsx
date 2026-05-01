@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import './Login.css';
 
 export default function Login() {
     const { login } = useAuth();
@@ -31,25 +32,7 @@ export default function Login() {
     };
 
     return (
-        <>
-            <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Manrope:wght@400;500;600&family=Inter:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
-
-        .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-body { font-family: 'Manrope', sans-serif; }
-        .font-label { font-family: 'Inter', sans-serif; }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        .japanese-pattern {
-            background-color: #f9f9f9;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/1999/xlink' width='100' height='100' viewBox='0 0 100 100' %3E%3Cdefs%3E%3Cpath id='a' d='M50 50c0-13.8 11.2-25 25-25s25 11.2 25 25-11.2 25-25 25-25-11.2-25-25zm0 0c0 13.8-11.2 25-25 25S0 63.8 0 50s11.2-25 25-25 25 11.2 25 25z'/%3E%3C/defs%3E%3Cuse xlink:href='%23a' fill='%238f0020' fill-opacity='0.03'/%3E%3C/svg%3E");
-        }
-      `}</style>
-
-            <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body selection:bg-[#ffdad9] selection:text-[#400009] min-h-screen flex flex-col japanese-pattern">
+        <div className="bg-[#f9f9f9] text-[#1a1c1c] font-body selection:bg-[#ffdad9] selection:text-[#400009] min-h-screen flex flex-col japanese-pattern">
                 <main className="flex-grow flex items-center justify-center px-6 py-12">
                     <div className="relative w-full max-w-[480px]">
 
@@ -214,6 +197,5 @@ export default function Login() {
                     <div className="text-zinc-500">© 2024 Minori Immersion Hub. Chế tác bởi Zen.</div>
                 </footer>
             </div>
-        </>
     );
 }

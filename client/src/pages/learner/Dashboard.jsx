@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import srsService from '../../services/srsService';
 import gameService from '../../services/gameService';
-
+import './Dashboard.css';
 export default function Dashboard() {
     const { user } = useAuth();
     const [dueCount, setDueCount] = useState(0);
@@ -43,17 +43,7 @@ export default function Dashboard() {
     const strokeDashoffset = 283 - (283 * progressRatio);
 
     return (
-        <>
-            <style>{`
-        .enso-progress {
-            stroke-dasharray: 283;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            transition: stroke-dashoffset 1s ease-in-out;
-        }
-      `}</style>
-
-            <div className="max-w-7xl mx-auto w-full animate-fade-in-up">
+        <div className="max-w-7xl mx-auto w-full animate-fade-in-up">
 
                 {/* Header Section */}
                 <header className="mb-12 relative">
@@ -245,6 +235,5 @@ export default function Dashboard() {
 
                 </div>
             </div>
-        </>
     );
 }

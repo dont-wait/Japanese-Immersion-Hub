@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import GoogleLogo from '../../assets/Google_2015_logo.svg.png';
 import AppleLogo from '../../assets/Apple_logo_black.svg';
+import './Register.css';
 
 export default function Register() {
     const { register } = useAuth();
@@ -51,28 +52,7 @@ export default function Register() {
     };
 
     return (
-        <>
-            <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Manrope:wght@200..800&family=Inter:wght@100..900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
-
-        .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .font-body { font-family: 'Manrope', sans-serif; }
-        .font-label { font-family: 'Inter', sans-serif; }
-
-        .material-symbols-outlined {
-          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-          display: inline-block;
-          vertical-align: middle;
-        }
-
-        .glass-effect { background: rgba(249, 249, 249, 0.8); backdrop-filter: blur(20px); }
-        .primary-gradient { background: linear-gradient(135deg, #8f0020 0%, #bc002d 100%); }
-
-        .minori-bg { background-color: #f9f9f9; color: #1a1c1c; min-height: 100vh; }
-      `}</style>
-
-            <div className="bg-[#f9f9f9] text-[#1a1c1c] min-h-screen flex flex-col font-body">
+        <div className="bg-[#f9f9f9] text-[#1a1c1c] min-h-screen flex flex-col font-body">
 
                 <header className="fixed top-0 w-full z-50 glass-effect">
                     <div className="flex justify-between items-center px-8 py-6 w-full max-w-7xl mx-auto">
@@ -263,6 +243,5 @@ export default function Register() {
                     />
                 </div>
             </div>
-        </>
     );
 }
