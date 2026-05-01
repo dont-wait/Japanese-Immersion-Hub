@@ -52,11 +52,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @NonFinal
     @Value("${oauth2.clientId}")
-    protected String CLIEND_ID;
+    protected String CLIENT_ID;
 
     @NonFinal
     @Value("${oauth2.clientSecret}")
-    protected String CLIEND_SECRET;
+    protected String CLIENT_SECRET;
 
     @NonFinal
     @Value("${oauth2.redirectUri}")
@@ -132,8 +132,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse outboundAuthenticate(String code) {
         var response = outboundIdentityClient.exchangeToken(ExchangeTokenRequest.builder()
                 .code(code)
-                .clientId(CLIEND_ID)
-                .clientSecret(CLIEND_SECRET)
+                .clientId(CLIENT_ID)
+                .clientSecret(CLIENT_SECRET)
                 .redirectUri(REDIRECT_URI)
                 .grantType(GRANT_TYPE)
                 .build());
