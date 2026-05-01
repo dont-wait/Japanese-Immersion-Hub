@@ -1,9 +1,29 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function LearnerLayout() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
+    const [showUserMenu, setShowUserMenu] = useState(false);
+    const menuRef = useRef(null);
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/login');
+    };
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setShowUserMenu(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const isActive = (path) => {
         if (path === '/learn') return location.pathname === '/learn';
@@ -59,12 +79,56 @@ export default function LearnerLayout() {
                             <input className="bg-[#f3f3f3] text-[#1a1c1c] border-none rounded-full py-2 pl-10 pr-4 w-64 focus:ring-1 focus:ring-[#8f0020] placeholder:text-[#906f6f]/50" placeholder="Tìm kiếm từ điển..." type="text" />
                         </div>
                         <Link to="/creator" className="bg-gradient-to-br from-[#8f0020] to-[#bc002d] text-[#ffffff] px-6 py-2 rounded-xl font-bold hover:scale-105 transition-all duration-150 shadow-sm border border-[#e4bdbc]/30">Tạo mới</Link>
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 relative" ref={menuRef}>
                             <button className="p-2 text-zinc-500 hover:text-[#8f0020] transition-colors flex items-center justify-center"><span className="material-symbols-outlined">notifications</span></button>
-                            <button className="p-2 text-zinc-500 hover:text-[#8f0020] transition-colors flex items-center justify-center"><span className="material-symbols-outlined">settings</span></button>
-                            <Link to="/learn/profile">
-                                <img alt="Learner Profile" className="w-10 h-10 rounded-full border-2 border-[#e8e8e8] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmteWi6_38xqIdR2pWJ5bXLxhHElP3i2RCRsEbGqfBMBHN5SOT5VOq7S2AlwFNW5z7a5RPAuH9x49j_AZ2fSJIDm_nIv2Mu1_0FHMcnjbHEmKcs-9_eeJnNpNC-4vJ7IOfrYGi0xo8IkNIxuR8yVRlfSeeWRmQwySQ2c2PYJvZ2BwLe3u-spTTfRwo3ziZR81pnjhl2DdaLP1f7sSPv5MDnydApEthJCXLJZymyKU1lARIyrylxiBQ9xBAQTAbgb0G4_ba0vPWYEs" />
-                            </Link>
+                            <button 
+                                onClick={() => setShowUserMenu(!showUserMenu)}
+                                className="p-2 text-zinc-500 hover:text-[#8f0020] transition-colors flex items-center justify-center"
+                            >
+                                <span className="material-symbols-outlined">settings</span>
+                            </button>
+                            <button 
+                                onClick={() => setShowUserMenu(!showUserMenu)}
+                                className="focus:outline-none"
+                            >
+                                <img alt="Learner Profile" className="w-10 h-10 rounded-full border-2 border-[#e8e8e8] object-cover hover:border-[#8f0020] transition-all" src={user?.picture || "https://lh3.googleusercontent.com/aida-public/AB6AXuBmteWi6_38xqIdR2pWJ5bXLxhHElP3i2RCRsEbGqfBMBHN5SOT5VOq7S2AlwFNW5z7a5RPAuH9x49j_AZ2fSJIDm_nIv2Mu1_0FHMcnjbHEmKcs-9_eeJnNpNC-4vJ7IOfrYGi0xo8IkNIxuR8yVRlfSeeWRmQwySQ2c2PYJvZ2BwLe3u-spTTfRwo3ziZR81pnjhl2DdaLP1f7sSPv5MDnydApEthJCXLJZymyKU1lARIyrylxiBQ9xBAQTAbgb0G4_ba0vPWYEs"} />
+                            </button>
+
+                            {/* User Dropdown Menu */}
+                            {showUserMenu && (
+                                <div className="absolute right-0 top-14 w-64 bg-[#ffffff] rounded-2xl shadow-[0_12px_40px_rgba(26,28,28,0.12)] border border-[#eeeeee] py-3 z-50 animate-in fade-in zoom-in duration-200">
+                                    <div className="px-5 py-3 border-b border-[#eeeeee] mb-2">
+                                        <p className="font-headline font-bold text-[#1a1c1c] truncate">{user?.displayName || user?.username}</p>
+                                        <p className="text-xs text-[#635d5a] truncate">{user?.email || 'Học viên Minori'}</p>
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <Link 
+                                            to="/learn/profile" 
+                                            className="px-5 py-2.5 flex items-center gap-3 text-sm font-medium text-[#5c403f] hover:bg-[#f3f3f3] transition-colors"
+                                            onClick={() => setShowUserMenu(false)}
+                                        >
+                                            <span className="material-symbols-outlined text-lg">account_circle</span>
+                                            Hồ sơ cá nhân
+                                        </Link>
+                                        <Link 
+                                            to="/learn/settings" 
+                                            className="px-5 py-2.5 flex items-center gap-3 text-sm font-medium text-[#5c403f] hover:bg-[#f3f3f3] transition-colors"
+                                            onClick={() => setShowUserMenu(false)}
+                                        >
+                                            <span className="material-symbols-outlined text-lg">settings</span>
+                                            Cài đặt tài khoản
+                                        </Link>
+                                        <div className="h-[1px] bg-[#eeeeee] my-2"></div>
+                                        <button 
+                                            onClick={handleLogout}
+                                            className="px-5 py-2.5 flex items-center gap-3 text-sm font-bold text-[#8f0020] hover:bg-red-50 transition-colors text-left"
+                                        >
+                                            <span className="material-symbols-outlined text-lg">logout</span>
+                                            Đăng xuất
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </nav>

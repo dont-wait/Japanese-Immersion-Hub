@@ -24,10 +24,16 @@ export function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
-    const logout = useCallback(() => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('user');
-        setUser(null);
+    const logout = useCallback(async () => {
+        try {
+            await authService.logout();
+        } catch (err) {
+            console.error('Server logout error:', err);
+        } finally {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('user');
+            setUser(null);
+        }
     }, []);
 
     const fetchCurrentUser = useCallback(async () => {

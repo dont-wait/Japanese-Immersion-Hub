@@ -62,17 +62,17 @@ export default function Login() {
                                     )}
 
                                     <div className="space-y-4">
-                                        {/* Email Field */}
+                                        {/* Username Field */}
                                         <div className="group">
-                                            <label className="block text-xs font-label font-semibold text-[#5c403f] uppercase tracking-wider mb-1 px-1" htmlFor="username">
+                                            <label className="block text-xs font-label font-bold uppercase tracking-widest text-[#635d5a] mb-2 ml-1 group-focus-within:text-[#8f0020] transition-colors" htmlFor="username">
                                                 Tên đăng nhập
                                             </label>
                                             <div className="relative">
                                                 <input
-                                                    className="w-full bg-[#f3f3f3] border-none focus:ring-2 focus:ring-[#8f0020]/20 rounded-lg px-4 py-3.5 text-[#1a1c1c] placeholder:text-[#906f6f]/50 transition-all duration-200"
+                                                    className="w-full px-4 py-3.5 bg-[#f3f3f3] border-none rounded-xl focus:ring-2 focus:ring-[#8f0020] focus:bg-[#ffffff] transition-all placeholder:text-zinc-400 text-[#1a1c1c] font-body"
                                                     id="username"
                                                     name="username"
-                                                    placeholder="Tên đăng nhập của bạn"
+                                                    placeholder="kenji_tanaka"
                                                     required
                                                     type="text"
                                                     value={formData.username}

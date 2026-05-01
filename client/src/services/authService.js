@@ -19,8 +19,8 @@ const authService = {
 
     // Đăng xuất
     logout: () => {
-        const refreshToken = localStorage.getItem('refreshToken');
-        return axiosClient.post(API_ENDPOINTS.AUTH.LOGOUT, { refreshToken });
+        const token = localStorage.getItem('accessToken');
+        return axiosClient.post(API_ENDPOINTS.AUTH.LOGOUT, { token });
     },
 
     // Quên mật khẩu
