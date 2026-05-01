@@ -18,4 +18,5 @@ public class UserResponse {
     String email;
     String phone;
     String roleName;
+    String picture;
 }
