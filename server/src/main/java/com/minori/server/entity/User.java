@@ -30,6 +30,9 @@ public class User {
     @Column(name = "phone", nullable = false, length = 15, unique = true)
     String phone;
 
+    @Column(name = "picture")
+    String picture;
+
     @Column(name = "password", nullable = false)
     @Size(min = 8, message = "PASSWORD_MIN_LENGTH_MUST_BE_GREATER_OR_EQUAL_8")
     String password;
