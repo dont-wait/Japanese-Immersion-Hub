@@ -43,6 +43,22 @@ services:
       # Tắt cái popup quảng cáo Pro/Hub trong log
       LIQUIBASE_HUB_MODE: off 
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: jp_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      # Chạy ở chế độ Desktop (không bắt buộc login lại sau mỗi lần restart)
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "${PGADMIN_PORT:-8888}:80"
+    networks:
+      - jhub_network
+    depends_on:
+      - postgres
+
   # --- APP SERVICE (Đã tắt để chạy trên Host/NixOS) ---
   # app:
   #   image: maven:3.9.6-eclipse-temurin-17
