@@ -10,12 +10,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.minori.server.dto.request.auth.AuthenticationRequest;
+import com.minori.server.dto.request.auth.ExchangeTokenRequest;
 import com.minori.server.dto.request.auth.IntrospectRequest;
 import com.minori.server.dto.response.auth.AuthenticationResponse;
 import com.minori.server.dto.response.auth.IntrospectResponse;
 import com.minori.server.entity.User;
 import com.minori.server.enums.ErrorCode;
 import com.minori.server.exception.AppException;
+import com.minori.server.repository.OutboundIdentityClient;
 import com.minori.server.repository.UserRepository;
 import com.minori.server.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
@@ -32,18 +34,37 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    OutboundIdentityClient outboundIdentityClient;
 
     @NonFinal
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
+
+    @NonFinal
+    @Value("${oauth2.clientId}")
+    protected final String CLIEND_ID;
+
+    @NonFinal
+    @Value("${oauth2.clientSecret}")
+    protected final String CLIEND_SECRET;
+
+    @NonFinal
+    @Value("${oauth2.redirectUri}")
+    protected final String REDIRECT_URI;
+
+    @NonFinal
+    @Value("${oauth2.grantType}")
+    protected final String GRANT_TYPE;
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -56,15 +77,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var token = generateToken(existingUser);
         return AuthenticationResponse.builder()
-                .authenticated(true)
                 .token(token)
                 .build();
     }
-    
+
     private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
-        //Body trong payload -> Claims
+        // Body trong payload -> Claims
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
                 .issuer("minori-server")
@@ -74,7 +94,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .claim("scope", buildScope(user))
                 .build();
 
-        //Payload payload = new Payload(jwtClaimsSet.toJSONObject());    
+        // Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
         JWSObject jwsObject = new JWSObject(header, jwtClaimsSet.toPayload());
 
@@ -85,16 +105,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new RuntimeException(e);
         }
     }
-    
+
     private String buildScope(User user) {
         return user.getRole().getRoleName();
     }
 
     @Override
     public IntrospectResponse introspect(IntrospectRequest request)
-    throws JOSEException, ParseException {
+            throws JOSEException, ParseException {
         var token = request.getToken();
-        
+
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
 
         SignedJWT signedJWT = SignedJWT.parse(token);
@@ -102,19 +122,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
         var verified = signedJWT.verify(verifier);
-    
+
         return IntrospectResponse.builder()
-            .valid(verified && expirationTime.after(new Date()))
-            .build();
+                .valid(verified && expirationTime.after(new Date()))
+                .build();
     }
 
     @Override
     public AuthenticationResponse outboundAuthenticate(String code) {
+        var response = outboundIdentityClient.exchangeToken(ExchangeTokenRequest.builder()
+                .code(code)
+                .clientId(CLIEND_ID)
+                .clientSecret(CLIEND_SECRET)
+                .redirectUri(REDIRECT_URI)
+                .grantType(GRANT_TYPE)
+                .build());
+
+        log.info("TOKEN RESPONSE: {}", response);
 
         return AuthenticationResponse.builder()
-                .authenticated(true)
-                .token(code)
+                .token(response.getAccessToken())
                 .build();
-    }   
-    
+    }
+
 }

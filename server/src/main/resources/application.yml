@@ -24,3 +24,9 @@ server:
     context-path: /api/v1
 jwt:
   signerKey: ${JWT_SECRET}
+
+oauth2:
+  clientId: ${CLIENT_ID}
+  clientSecret: ${CLIENT_SECRET}
+  grantType: ${GRANT_TYPE}
+  redirectUri: ${REDIRECT_URI}
