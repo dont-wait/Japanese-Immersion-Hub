@@ -1,0 +1,163 @@
+/* ===== Google Fonts (must be first) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+/* ===== Custom Theme ===== */
+@theme {
+  --color-sakura: #F9A8D4;
+  --color-sakura-light: #FDE8F0;
+  --color-sakura-dark: #DB2777;
+  --color-matcha: #86EFAC;
+  --color-matcha-dark: #16A34A;
+  --color-indigo-deep: #312E81;
+  --color-fuji: #8B5CF6;
+  --color-fuji-light: #C4B5FD;
+  --color-ocean: #0EA5E9;
+  --color-ocean-dark: #0369A1;
+  --color-sun: #FBBF24;
+  --color-sun-dark: #D97706;
+  --color-ink: #1E1B2E;
+  --color-paper: #FAF7F2;
+  --color-paper-dark: #1A1A2E;
+  --color-muted: #94A3B8;
+
+  --font-sans: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
+  --font-jp: 'Noto Sans JP', sans-serif;
+}
+
+/* ===== Base ===== */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Dark Mode ===== */
+body.dark {
+  background-color: var(--color-paper-dark);
+  color: #E2E8F0;
+}
+
+/* ===== Japanese Text ===== */
+.font-jp {
+  font-family: var(--font-jp);
+}
+
+/* ===== Furigana ===== */
+ruby {
+  ruby-align: center;
+}
+
+ruby rt {
+  font-size: 0.55em;
+  color: var(--color-muted);
+}
+
+/* ===== Cloze Blank ===== */
+.cloze-blank {
+  border-bottom: 2px dashed var(--color-fuji);
+  padding: 0 0.25rem;
+  min-width: 3rem;
+  display: inline-block;
+  text-align: center;
+  color: transparent;
+  transition: color 0.3s ease;
+}
+
+.cloze-blank.revealed {
+  color: var(--color-fuji);
+  border-bottom-style: solid;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fuji);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes flipCard {
+  0% {
+    transform: rotateY(0deg);
+  }
+
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.6);
+  }
+}
+
+@keyframes streakBurn {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-flip {
+  animation: flipCard 0.6s ease-in-out forwards;
+  transform-style: preserve-3d;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.animate-streak {
+  animation: streakBurn 1s ease-in-out infinite;
+}

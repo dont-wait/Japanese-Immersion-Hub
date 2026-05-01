@@ -159,7 +159,7 @@ The application will start on `http://localhost:8386` (or your configured PORT).
 
 Once the application is running, access the interactive API documentation:
 
-- **Swagger UI**: http://localhost:8386/swagger-ui/index.html
+- **Swagger UI**: http://localhost:8386/api/v1/swagger-ui/index.html
 - **OpenAPI JSON**: http://localhost:8386/v3/api-docs
 
 ### Available Endpoints
