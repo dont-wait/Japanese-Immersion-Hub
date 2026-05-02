@@ -35,7 +35,8 @@ public enum ErrorCode {
     EMAIL_ALREADY_EXISTS(2004, "Email already exists", HttpStatus.BAD_REQUEST),
     PHONE_ALREADY_EXISTS(2004, "Phone already exists", HttpStatus.BAD_REQUEST),
     ROLE_ID_NOT_EXIST(2005, "Role ID does not exist", HttpStatus.NOT_FOUND),
-    PROVIDER_NAME_NOT_EXIST(2006, "Provider name does not exist", HttpStatus.NOT_FOUND)
+    PROVIDER_NAME_NOT_EXIST(2006, "Provider name does not exist", HttpStatus.NOT_FOUND),
+    PASSWORD_EXISTED(2007, "Password existed", HttpStatus.BAD_REQUEST),
     ;
     int code;
     String message;
