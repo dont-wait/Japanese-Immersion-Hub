@@ -193,7 +193,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .username(userInfo.getEmail())
                     .email(userInfo.getEmail())
                     .phone("G_" + userInfo.getSub().substring(0, 10))
-                    .password(passwordEncoder.encode(UUID.randomUUID().toString()))
+                    .password("")
                     .role(learnerRole)
                     .picture(userInfo.getPicture())
                     .build());
