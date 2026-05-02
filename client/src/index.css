@@ -145,6 +145,12 @@ ruby rt {
   }
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out forwards;
 }
@@ -160,4 +166,8 @@ ruby rt {
 
 .animate-streak {
   animation: streakBurn 1s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 0s 2;
 }

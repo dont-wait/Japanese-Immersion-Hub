@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { StudySessionProvider } from './contexts/StudySessionContext';
+import { ToastProvider } from './contexts/ToastContext';
 
 // Layouts
 import LearnerLayout from './components/layout/LearnerLayout';
@@ -66,45 +67,47 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <AuthProvider>
-          <StudySessionProvider>
-            <Routes>
-              {/* ── Public ── */}
-              <Route path="/" element={<LandingPage />} />
+        <ToastProvider>
+          <AuthProvider>
+            <StudySessionProvider>
+              <Routes>
+                {/* ── Public ── */}
+                <Route path="/" element={<LandingPage />} />
 
-              {/* ── Auth (guest only) ── */}
-              <Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
-              <Route path="/register" element={<GuestOnly><Register /></GuestOnly>} />
-              <Route path="/forgot-password" element={<GuestOnly><ForgotPassword /></GuestOnly>} />
-              <Route path="/auth" element={<OAuthCallback />} />
+                {/* ── Auth (guest only) ── */}
+                <Route path="/login" element={<GuestOnly><Login /></GuestOnly>} />
+                <Route path="/register" element={<GuestOnly><Register /></GuestOnly>} />
+                <Route path="/forgot-password" element={<GuestOnly><ForgotPassword /></GuestOnly>} />
+                <Route path="/auth" element={<OAuthCallback />} />
 
-              {/* ── Learner (auth required) ── */}
-              <Route path="/learn" element={<RequireAuth><LearnerLayout /></RequireAuth>}>
-                <Route index element={<Dashboard />} />
-                <Route path="study" element={<StudySession />} />
-                <Route path="dictionary" element={<Dictionary />} />
-                <Route path="leaderboard" element={<Leaderboard />} />
-                <Route path="profile" element={<Profile />} />
-              </Route>
+                {/* ── Learner (auth required) ── */}
+                <Route path="/learn" element={<RequireAuth><LearnerLayout /></RequireAuth>}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="study" element={<StudySession />} />
+                  <Route path="dictionary" element={<Dictionary />} />
+                  <Route path="leaderboard" element={<Leaderboard />} />
+                  <Route path="profile" element={<Profile />} />
+                </Route>
 
-              {/* ── Admin (admin only) ── */}
-              <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="users" element={<UserManage />} />
-                <Route path="logs" element={<SystemLogs />} />
-              </Route>
+                {/* ── Admin (admin only) ── */}
+                <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="users" element={<UserManage />} />
+                  <Route path="logs" element={<SystemLogs />} />
+                </Route>
 
-              {/* ── Creator (creator/admin only) ── */}
-              <Route path="/creator" element={<RequireCreator><LearnerLayout /></RequireCreator>}>
-                <Route index element={<VocabEditor />} />
-                <Route path="contributions" element={<ManageContributions />} />
-              </Route>
+                {/* ── Creator (creator/admin only) ── */}
+                <Route path="/creator" element={<RequireCreator><LearnerLayout /></RequireCreator>}>
+                  <Route index element={<VocabEditor />} />
+                  <Route path="contributions" element={<ManageContributions />} />
+                </Route>
 
-              {/* ── Fallback ── */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </StudySessionProvider>
-        </AuthProvider>
+                {/* ── Fallback ── */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </StudySessionProvider>
+          </AuthProvider>
+        </ToastProvider>
       </ThemeProvider>
     </BrowserRouter>
   );

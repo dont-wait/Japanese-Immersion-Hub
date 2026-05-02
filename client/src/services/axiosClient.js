@@ -23,19 +23,30 @@ axiosClient.interceptors.request.use(
 );
 
 axiosClient.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        if (response.data && response.data.code !== 1000) {
+            return Promise.reject(response.data);
+        }
+        return response;
+    },
     async (error) => {
         // Nếu lỗi 401 (Unauthorized)
         if (error.response?.status === 401) {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('user');
-            
-            // Chỉ redirect nếu không phải đang ở trang login
+
             if (!window.location.pathname.includes('/login')) {
                 window.location.href = '/login';
             }
         }
-        return Promise.reject(error);
+
+        // Trả về dữ liệu lỗi từ server nếu có
+        const errorData = error.response?.data || {
+            code: 9999,
+            message: error.message || 'Lỗi kết nối server'
+        };
+
+        return Promise.reject(errorData);
     }
 );
 

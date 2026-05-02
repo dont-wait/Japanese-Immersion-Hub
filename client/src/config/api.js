@@ -56,6 +56,7 @@ const API_ENDPOINTS = {
         PROFILE: '/users/@me',
         SETTINGS: '/user/settings',
         STATS: '/user/stats',
+        CREATE_PASSWORD: '/users/create-password',
     },
 
     // Admin

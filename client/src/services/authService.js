@@ -32,6 +32,11 @@ const authService = {
     resetPassword: (token, newPassword) => {
         return axiosClient.post(API_ENDPOINTS.AUTH.RESET_PASSWORD, { token, newPassword });
     },
+
+    // Tạo mật khẩu mới (dành cho người dùng Google chưa có mật khẩu)
+    createPassword: (password) => {
+        return axiosClient.post(API_ENDPOINTS.USER.CREATE_PASSWORD, { password });
+    },
 };
 
 export default authService;

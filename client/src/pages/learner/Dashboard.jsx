@@ -58,6 +58,27 @@ export default function Dashboard() {
                     </div>
                 </header>
 
+                {/* Password Alert Banner */}
+                {!user?.hasPassword && !user?.isGuest && (
+                    <div className="mb-8 bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20 rounded-2xl p-4 flex items-center justify-between group animate-fade-in-up">
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-amber-500/20">
+                                <span className="material-symbols-outlined">key</span>
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-amber-900 text-sm">Bảo mật tài khoản của bạn</h4>
+                                <p className="text-amber-800/60 text-xs font-medium">Bạn hiện đang đăng nhập qua Google. Hãy thiết lập mật khẩu để đăng nhập trực tiếp thuận tiện hơn.</p>
+                            </div>
+                        </div>
+                        <Link 
+                            to="/learn/profile" 
+                            className="bg-white text-amber-600 px-4 py-2 rounded-xl text-xs font-bold shadow-sm hover:shadow-md transition-all border border-amber-100"
+                        >
+                            Thiết lập ngay
+                        </Link>
+                    </div>
+                )}
+
                 {/* Bento Grid Layout */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
