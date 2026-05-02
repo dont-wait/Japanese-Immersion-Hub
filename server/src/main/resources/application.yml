@@ -24,6 +24,8 @@ server:
     context-path: /api/v1
 jwt:
   signerKey: ${JWT_SECRET}
+  valid-duration: 3600
+  refreshable-duration: 36000
 
 oauth2:
   clientId: ${CLIENT_ID}

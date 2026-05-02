@@ -14,6 +14,7 @@ public enum ErrorCode {
     
     UNCATEGORIZED(6789, "Uncategorized Exception", HttpStatus.INTERNAL_SERVER_ERROR),
     UNAUTHENTICATED(1005, "Unauthenticated", HttpStatus.UNAUTHORIZED),
+    AUTH_INFO_NOT_CORRECT(1005, "Your username or password not correct", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZEED(1006, "You do not have permission to access this resource", HttpStatus.FORBIDDEN),            
     
     USERNAME_NOT_BLANK(2001, "Username must not be blank", HttpStatus.BAD_REQUEST),
