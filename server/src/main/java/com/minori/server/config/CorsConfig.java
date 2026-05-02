@@ -21,7 +21,7 @@ public class CorsConfig {
 
         // Allow specific origins
         // Note: Using allowedOrigins instead of Pattern for explicit trust
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
         
         // Allow all headers
         config.addAllowedHeader("*");
