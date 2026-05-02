@@ -33,8 +33,7 @@ public class User {
     @Column(name = "picture")
     String picture;
 
-    @Column(name = "password", nullable = false)
-    @Size(min = 8, message = "PASSWORD_MIN_LENGTH_MUST_BE_GREATER_OR_EQUAL_8")
+    @Column(name = "password")
     String password;
 
     @ManyToOne

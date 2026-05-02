@@ -11,6 +11,10 @@ databaseChangeLog:
 
   - include:
       file: db/changelog/changes/004-add-picture-to-users.sql
+  - include:
+      file: db/changelog/changes/005-password-allow-null.sql
+
+
 
 
 
