@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 import GoogleLogo from '../../assets/Google_2015_logo.svg.png'
 import AppleLogo from '../../assets/Apple_logo_black.svg'
 import './Register.css'

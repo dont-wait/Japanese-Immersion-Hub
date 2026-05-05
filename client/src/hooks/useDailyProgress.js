@@ -32,13 +32,7 @@ export function useDailyProgress() {
     fetchProgress()
   }, [fetchProgress])
 
-  return {
-    dailyGoal,
-    xp,
-    streak,
-    loading,
-    refreshProgress: fetchProgress,
-  }
+  return { dailyGoal, xp, streak, loading, refreshProgress: fetchProgress }
 }
 
 export default useDailyProgress

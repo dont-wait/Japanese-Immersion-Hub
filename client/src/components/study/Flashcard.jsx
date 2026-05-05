@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Volume2 } from 'lucide-react'
 import useAudio from '../../hooks/useAudio'
 

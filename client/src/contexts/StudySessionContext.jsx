@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from 'react'
+import { createContext, useState, useCallback } from 'react'
 
 const StudySessionContext = createContext(null)
 
@@ -87,14 +87,6 @@ export function StudySessionProvider({ children }) {
   }
 
   return <StudySessionContext.Provider value={value}>{children}</StudySessionContext.Provider>
-}
-
-export function useStudySession() {
-  const context = useContext(StudySessionContext)
-  if (!context) {
-    throw new Error('useStudySession must be used within a StudySessionProvider')
-  }
-  return context
 }
 
 export default StudySessionContext

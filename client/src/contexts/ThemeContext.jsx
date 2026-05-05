@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { createContext, useState, useEffect, useCallback } from 'react'
 import { THEMES, getStoredTheme, setStoredTheme } from '../config/theme'
 
 const ThemeContext = createContext(null)
@@ -21,14 +21,6 @@ export function ThemeProvider({ children }) {
   }
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-}
-
-export function useTheme() {
-  const context = useContext(ThemeContext)
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider')
-  }
-  return context
 }
 
 export default ThemeContext

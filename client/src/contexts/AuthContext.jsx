@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { createContext, useState, useCallback } from 'react'
 import authService from '../services/authService'
 import axiosClient from '../services/axiosClient'
 import { API_ENDPOINTS, GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI } from '../config/api'
@@ -6,23 +6,20 @@ import { API_ENDPOINTS, GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI } from '../config/
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  // Kiểm tra trạng thái đăng nhập khi mount
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
     const token = localStorage.getItem('accessToken')
     const storedUser = localStorage.getItem('user')
     if (token && storedUser) {
       try {
-        setUser(JSON.parse(storedUser))
+        return JSON.parse(storedUser)
       } catch {
         localStorage.removeItem('user')
         localStorage.removeItem('accessToken')
       }
     }
-    setLoading(false)
-  }, [])
+    return null
+  })
+  const [loading] = useState(false)
 
   const logout = useCallback(async () => {
     try {
@@ -124,7 +121,7 @@ export function AuthProvider({ children }) {
       }
     }
     return data
-  }, [])
+  }, [fetchCurrentUser])
 
   // Tạo URL redirect đến Google OAuth2 consent screen
   const getGoogleAuthUrl = useCallback(() => {
@@ -163,14 +160,6 @@ export function AuthProvider({ children }) {
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
-  }
-  return context
 }
 
 export default AuthContext

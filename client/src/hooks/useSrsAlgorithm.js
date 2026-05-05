@@ -24,7 +24,6 @@ export function useSrsAlgorithm() {
   const submitGrade = useCallback(async (cardId, grade, timeSpent) => {
     try {
       const { data } = await srsService.submitReview({ cardId, grade, timeSpent })
-      // Xóa card đã đánh giá khỏi danh sách
       setDueCards((prev) => prev.filter((c) => c.id !== cardId))
       return data
     } catch (error) {
@@ -47,15 +46,7 @@ export function useSrsAlgorithm() {
     fetchStats()
   }, [fetchDueCards, fetchStats])
 
-  return {
-    dueCards,
-    dueCount: dueCards.length,
-    loading,
-    stats,
-    fetchDueCards,
-    submitGrade,
-    fetchStats,
-  }
+  return { dueCards, dueCount: dueCards.length, loading, stats, fetchDueCards, submitGrade, fetchStats }
 }
 
 export default useSrsAlgorithm

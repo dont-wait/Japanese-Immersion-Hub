@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 import './Login.css'
 
 export default function OAuthCallback() {
@@ -9,8 +9,6 @@ export default function OAuthCallback() {
   const { loginWithGoogle } = useAuth()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(true)
-
-  const hasExchanged = import.meta.env.DEV ? window._hasExchanged || false : false
   const [called, setCalled] = useState(false)
 
   useEffect(() => {
@@ -44,6 +42,7 @@ export default function OAuthCallback() {
         setError(
           err?.response?.data?.message || 'Đăng nhập bằng Google thất bại. Vui lòng thử lại.'
         )
+      } finally {
         setLoading(false)
       }
     }
