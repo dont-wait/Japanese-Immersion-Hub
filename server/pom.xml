@@ -156,7 +156,37 @@
 
 	<build>
 		<plugins>
-			<plugin>
+                <!-- Checkstyle -->
+                <plugin>
+                  <groupId>org.apache.maven.plugins</groupId>
+                  <artifactId>maven-checkstyle-plugin</artifactId>
+                  <version>3.3.1</version>
+                  <configuration>
+                    <configLocation>google_checks.xml</configLocation>
+                    <failsOnError>true</failsOnError>
+                    <consoleOutput>true</consoleOutput>
+                  </configuration>
+                  <executions>
+                    <execution>
+                      <id>checkstyle</id>
+                      <phase>validate</phase>
+                      <goals><goal>check</goal></goals>
+                    </execution>
+                  </executions>
+                </plugin>
+
+                <!-- SpotBugs -->
+                <plugin>
+                  <groupId>com.github.spotbugs</groupId>
+                  <artifactId>spotbugs-maven-plugin</artifactId>
+                  <version>4.9.8.3</version>
+                  <executions>
+                    <execution>
+                      <goals><goal>check</goal></goals>
+                    </execution>
+                  </executions>
+                </plugin>
+               <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>

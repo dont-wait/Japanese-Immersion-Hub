@@ -1,27 +1,27 @@
 /* ===== Google Fonts (must be first) ===== */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/forms";
 
 /* ===== Custom Theme ===== */
 @theme {
-  --color-sakura: #F9A8D4;
-  --color-sakura-light: #FDE8F0;
-  --color-sakura-dark: #DB2777;
-  --color-matcha: #86EFAC;
-  --color-matcha-dark: #16A34A;
-  --color-indigo-deep: #312E81;
-  --color-fuji: #8B5CF6;
-  --color-fuji-light: #C4B5FD;
-  --color-ocean: #0EA5E9;
-  --color-ocean-dark: #0369A1;
-  --color-sun: #FBBF24;
-  --color-sun-dark: #D97706;
-  --color-ink: #1E1B2E;
-  --color-paper: #FAF7F2;
-  --color-paper-dark: #1A1A2E;
-  --color-muted: #94A3B8;
+  --color-sakura: #f9a8d4;
+  --color-sakura-light: #fde8f0;
+  --color-sakura-dark: #db2777;
+  --color-matcha: #86efac;
+  --color-matcha-dark: #16a34a;
+  --color-indigo-deep: #312e81;
+  --color-fuji: #8b5cf6;
+  --color-fuji-light: #c4b5fd;
+  --color-ocean: #0ea5e9;
+  --color-ocean-dark: #0369a1;
+  --color-sun: #fbbf24;
+  --color-sun-dark: #d97706;
+  --color-ink: #1e1b2e;
+  --color-paper: #faf7f2;
+  --color-paper-dark: #1a1a2e;
+  --color-muted: #94a3b8;
 
   --font-sans: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
   --font-jp: 'Noto Sans JP', sans-serif;
@@ -38,7 +38,9 @@ body {
   font-family: var(--font-sans);
   background-color: var(--color-paper);
   color: var(--color-ink);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -46,7 +48,7 @@ body {
 /* ===== Dark Mode ===== */
 body.dark {
   background-color: var(--color-paper-dark);
-  color: #E2E8F0;
+  color: #e2e8f0;
 }
 
 /* ===== Japanese Text ===== */
@@ -122,7 +124,6 @@ ruby rt {
 }
 
 @keyframes pulseGlow {
-
   0%,
   100% {
     box-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
@@ -134,7 +135,6 @@ ruby rt {
 }
 
 @keyframes streakBurn {
-
   0%,
   100% {
     transform: scale(1);
@@ -146,9 +146,16 @@ ruby rt {
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
 }
 
 .animate-fade-in-up {
