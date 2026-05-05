@@ -41,25 +41,28 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthenticationResponse>> login(@Valid @RequestBody AuthenticationRequest request) {
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> login(
+            @Valid @RequestBody AuthenticationRequest request) {
         var authenticationResponse = authenticationService.authenticate(request);
         return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(ApiResponse.<AuthenticationResponse>builder()
-                .message("User logged in successfully")
-                .result(authenticationResponse)
-                .build());
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.<AuthenticationResponse>builder()
+                        .message("User logged in successfully")
+                        .result(authenticationResponse)
+                        .build());
     }
 
     @PostMapping("/introspect")
-    public ResponseEntity<ApiResponse<IntrospectResponse>> introspect(@RequestBody IntrospectRequest request) throws JOSEException, ParseException {
+    public ResponseEntity<ApiResponse<IntrospectResponse>> introspect(@RequestBody IntrospectRequest request)
+            throws JOSEException, ParseException {
         var authenticationResponse = authenticationService.introspect(request);
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(ApiResponse.<IntrospectResponse>builder()
-                    .result(authenticationResponse)
-                    .build());
-    } 
+                .status(HttpStatus.OK)
+                .body(ApiResponse.<IntrospectResponse>builder()
+                        .result(authenticationResponse)
+                        .build());
+    }
+
     @PostMapping("/logout")
     public ApiResponse<Void> logout(@RequestBody LogoutRequest request) throws JOSEException, ParseException {
         authenticationService.logout(request);
@@ -67,6 +70,5 @@ public class AuthenticationController {
                 .message("User logged out successfully")
                 .build();
     }
-
 
 }

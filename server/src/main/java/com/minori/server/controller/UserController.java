@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.minori.server.dto.ApiResponse;
+import com.minori.server.dto.request.auth.PasswordCreationRequest;
 import com.minori.server.dto.request.auth.UserCreationRequest;
 import com.minori.server.dto.request.auth.UserUpdateRequest;
 import com.minori.server.dto.response.auth.UserResponse;
@@ -26,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
-
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -34,24 +34,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserController {
     UserService userService;
-    
+
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserResponse>> createUser(@Valid @RequestBody UserCreationRequest request) {
         return ResponseEntity
-        .status(HttpStatus.CREATED)
-        .body(ApiResponse.<UserResponse>builder()
-                .message("User created successfully")
-                .result(userService.createUserAccount(request))
-                .build());
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.<UserResponse>builder()
+                        .message("User created successfully")
+                        .result(userService.createUserAccount(request))
+                        .build());
     }
 
     @GetMapping("{userId}")
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(String userId) {
         return ResponseEntity.ok(
-            ApiResponse.<UserResponse>builder()
-                .message("User fetched successfully")
-                .result(userService.getUserById(userId))
-                .build());
+                ApiResponse.<UserResponse>builder()
+                        .message("User fetched successfully")
+                        .result(userService.getUserById(userId))
+                        .build());
     }
 
     @GetMapping
@@ -70,32 +70,40 @@ public class UserController {
                         .result(userService.getUsers())
                         .build());
     }
-    
+
     @GetMapping("@me")
     public ResponseEntity<ApiResponse<UserResponse>> getMyInfo() {
         return ResponseEntity.ok(
-            ApiResponse.<UserResponse>builder()
-                .message("User info fetched successfully")
-                .result(userService.getMyInfo())
-                .build());
+                ApiResponse.<UserResponse>builder()
+                        .message("User info fetched successfully")
+                        .result(userService.getMyInfo())
+                        .build());
     }
-    
 
     @PutMapping("{userId}")
-    public ResponseEntity<ApiResponse<UserResponse>> updateUser(String userId, @Valid @RequestBody UserUpdateRequest request) {
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(String userId,
+            @Valid @RequestBody UserUpdateRequest request) {
         return ResponseEntity.ok(
-            ApiResponse.<UserResponse>builder()
-                .message("User updated successfully")
-                .result(userService.updateUser(userId, request))
-                .build());
+                ApiResponse.<UserResponse>builder()
+                        .message("User updated successfully")
+                        .result(userService.updateUser(userId, request))
+                        .build());
     }
 
     @DeleteMapping("{userId}")
     public ResponseEntity<ApiResponse<Void>> deleteUser(String userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok(
-            ApiResponse.<Void>builder()
-                .message("User deleted successfully")
-                .build());
+                ApiResponse.<Void>builder()
+                        .message("User deleted successfully")
+                        .build());
+    }
+
+    @PostMapping("/create-password")
+    public ApiResponse<Void> createPassword(@RequestBody PasswordCreationRequest request) {
+        userService.createPassword(request);
+        return ApiResponse.<Void>builder()
+                .message("Password created, use it to login")
+                .build();
     }
 }

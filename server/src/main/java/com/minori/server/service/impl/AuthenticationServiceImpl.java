@@ -89,7 +89,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 () -> new AppException(ErrorCode.USER_NOT_FOUND));
         boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), existingUser.getPassword());
         if (!isAuthenticated) {
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
+            throw new AppException(ErrorCode.AUTH_INFO_NOT_CORRECT);
         }
 
         var token = generateToken(existingUser);
@@ -193,7 +193,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .username(userInfo.getEmail())
                     .email(userInfo.getEmail())
                     .phone("G_" + userInfo.getSub().substring(0, 10))
-                    .password(passwordEncoder.encode(UUID.randomUUID().toString()))
+                    .password("")
                     .role(learnerRole)
                     .picture(userInfo.getPicture())
                     .build());

@@ -47,6 +47,8 @@ services:
     image: dpage/pgadmin4
     container_name: jp_pgadmin
     restart: always
+    profiles:
+      - tools
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}

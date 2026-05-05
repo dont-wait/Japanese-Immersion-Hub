@@ -19,4 +19,5 @@ public class UserResponse {
     String phone;
     String roleName;
     String picture;
+    Boolean hasPassword;
 }

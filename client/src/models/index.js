@@ -84,4 +84,4 @@
  * @property {string} unlockedAt
  */
 
-export default {};
+export default {}
